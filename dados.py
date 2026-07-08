@@ -27,7 +27,7 @@ def _carregar(caminho, padrao):
         with open(caminho, "r", encoding="utf-8") as arquivo:
             return json.load(arquivo)
     except (json.JSONDecodeError, FileNotFoundError):
-        # Arquivo vazio/corrompido: recria com o padrão em vez de travar
+        # Arquivo vazio: recria com o padrão em vez de travar
         _salvar(caminho, padrao)
         return padrao
 
@@ -39,9 +39,7 @@ def _salvar(caminho, dados):
         json.dump(dados, arquivo, ensure_ascii=False, indent=4)
 
 
-# ---------------- Usuários ----------------
-# Estrutura sugerida no documento:
-# { "id_do_usuario": {"nome", "email", "senha", "telefone", "tipo": "cliente"|"admin"} }
+# Usuários= { "id_do_usuario": {"nome", "email", "senha", "telefone", "tipo": "cliente"|"admin"} }
 
 def carregar_usuarios():
     return _carregar(ARQ_USUARIOS, {})
@@ -51,7 +49,7 @@ def salvar_usuarios(usuarios):
     _salvar(ARQ_USUARIOS, usuarios)
 
 
-# ---------------- Serviços ----------------
+#  Serviços
 
 def carregar_servicos():
     return _carregar(ARQ_SERVICOS, {})
@@ -61,7 +59,7 @@ def salvar_servicos(servicos):
     _salvar(ARQ_SERVICOS, servicos)
 
 
-# ---------------- Agendamentos ----------------
+#  Agendamentos
 
 def carregar_agendamentos():
     return _carregar(ARQ_AGENDAMENTOS, {})
