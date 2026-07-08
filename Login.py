@@ -84,19 +84,3 @@ def login(usuarios):
             return menu_administrador(id_encontrado, usuario_encontrado)
         else:
             return menu_cliente(id_encontrado, usuario_encontrado)
-
-
-if __name__ == "__main__":
-    # Ponto de entrada de teste isolado deste módulo.
-    # Na versão final, essa navegação deve morar em main.py, que é quem
-    # controla o fluxo entre os módulos (login <-> cadastro).
-    from src.cadastro import cadastro
-
-    usuarios = dados.carregar_usuarios()
-
-    escolha = curses.wrapper(entrada_do_sistema)
-
-    if escolha == "login":
-        login(usuarios)
-    elif escolha == "cadastro":
-        cadastro(usuarios)
