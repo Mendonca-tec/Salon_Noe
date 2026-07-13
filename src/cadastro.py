@@ -1,0 +1,74 @@
+import re
+import uuid
+
+from src import dados
+
+
+def validar_email(email):
+    ''' Função desenvolvida para tratamento de emails.
+        Onde verifica se os email são validos'''
+    padrao = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
+    return re.match(padrao, email) is not None
+
+
+def cadastro(usuarios):
+    ''' Nessa função devera adcionar o cliente ao banco de dados sobre os clientes.
+        ele deve informar todos dados pedidos e o sistema vai verificar se o email já está
+        cadastrado em alguma outra conta. Novos usuários sempre entram com tipo "cliente",
+        como pede o documento.'''
+
+    # Import feito aqui dentro para evitar import circular com login.py
+    from src.login import login
+
+    print("| Preencha todos os dados a seguir.")
+    while True:
+        nome = input("| Nome: ")
+        telefone = input("| Telefone/Celular: ")
+        email = input("| E-mail: ").lower().strip()
+        senha = input("| Senha: ")
+        confirmar_senha = input("| Confirma senha: ")
+
+        # Verifica se o usuário não deixou algum campo em branco
+        if not all([nome, telefone, email, senha, confirmar_senha]):
+            print("| Todos os campos devem ser preenchidos.")
+            continue
+
+        # Verifica se a senha é igual a sua confirmação
+        if senha != confirmar_senha:
+            print("| Senhas diferentes!!")
+            continue
+
+        # Verifica se o email é válido
+        if not validar_email(email):
+            print("| O e-mail informado é inválido.")
+            continue
+
+        # Verifica se o email já existe no banco de dados
+        email_existente = False
+        for id_usuario, dados_usuario in usuarios.items():
+            if dados_usuario["email"].lower() == email:
+                email_existente = True
+                break
+
+        if email_existente:
+            print("| E-mail já em uso")
+            continue
+
+        # Uso da biblioteca uuid para gerar um id único
+        novo_id = str(uuid.uuid4())
+
+        usuarios[novo_id] = {
+            "id": novo_id,
+            "nome": nome.strip(),
+            "email": email,
+            "telefone": telefone.strip(),
+            "senha": senha,
+            "tipo": "cliente",
+        }
+
+        # Persiste a alteração no arquivo JSON
+        dados.salvar_usuarios(usuarios)
+        print("| Conta criada com sucesso!")
+        break
+
+    return login(usuarios)
