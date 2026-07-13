@@ -6,7 +6,7 @@ from src import dados
 
 def cabecalho(stdscr):
     '''Desenha o título fixo no topo da tela'''
-    stdscr.addstr(0, 2, "=== GRAZI SALON ===")
+    stdscr.addstr(0, 2, "=== SALON NOE ===")
 
 
 def entrada_do_sistema(stdscr):
