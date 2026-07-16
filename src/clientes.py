@@ -93,7 +93,7 @@ def menu_cliente(id_usuario, usuario):
     
     while escolha != 0:
         limpar_tela()
-        print("GRAZY SALON")
+        print("====PYSALON====")
         print(f"1 - Ver serviços\n2 - Horários livres\n3 - Fazer agendamento\n 4 - Alterar senha\n0 - Sair")
         
         while True:
